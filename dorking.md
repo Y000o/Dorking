@@ -126,3 +126,59 @@ Ahora vamos a ver algunos simbolos muy importantes:
       
       
 ## ¿Cómo usar esto en el "hacking"?      
+
+Primero que nada, tenemos que tener muy en claro lo que queremos lograr, lo que vamos a buscar y lo que queremos encontrar.
+
+Para poder empezar en el Google hacking ya viendo desde una perspectiva en donde queremos encontrar "informacion" que no todos pueden encontrar, tenemos que conocer
+archivos que contengan esa informacion, tenemos que conocer los sistemas en los cuales se basa una pagina web, tenemos que estar enterados de todo un poco. 
+
+El primer ejemplo que vamos a ver es el de como buscar el archivo "robots.txt", pero primero para buscar ese archivo tenemos que saber: ¿Qué es?, ¿qué contiene?,
+¿Porqué las paginas lo usan?, no podemos buscar algo solo por buscarlo sin saber que es.
+
+El archivo "robots.txt" es para facilitar la indexación de un sitio web.  Este archivo sirve para dar instrucciones a los robots sobre qué contenidos deben rastrear y cuáles no y cómo deberían hacerlo. En palabras mas faciles ese archivo sirve para que la pagina web este "segura" de las busquedas de google, ya que en el archivo vienen las paginas que el administrador no quiere que se vean en los resultados de google, vamos, que es como excluir las paginas para no ser encontradas.
+
+Este archivo en concreto esta escrito de la siguiente manera: 
+
+```
+User-agent: *
+
+
+Disallow: /ejemplo/
+Disallow: /1/ejemplo/
+Disallow: /2/
+Disallow: /ejemplo2/
+Disallow: /ejemplo3/
+Disallow: /3/ejemplo4
+Disallow: /no_quiero_que_me_vean
+Allow: /yo_si_quiero_que_me_vean
+Allow: /yo_tambien
+
+```
+Se usa de la siguiente manera en el link de la pagina:
+
+`https://www.paginadeejemplo.com/robots.txt`
+
+Con lo cual tenemos muchas maneras de como encontrarlo, por ejemplo... sabemos en que parte de el link esta, sabemos que se usa en la url:
+
+podemos hacer una busqueda como la siguiente:
+
+`inurl:robots.txt` pero esto nos mostrará resultados muy generales y puede ser que encuentre el archivo o algo relacionado a el
+
+aqui es cuando vamos a usar de verdad los operadores, los vamos a mezclar para obtener mejores resultados:
+
+usando el operador "site" + "inurl" y el simbolo `*` hacemos la busqueda mucho mas especifica:
+
+`site:www.google.com inurl:robots.txt` ya con esto enfocamos que la busqueda es en la pagina de google, y listo!! nos da como resultado: https://www.google.com/robots.txt
+
+pero si queremos hacen mucho mas especifica la busqueda podemos usar:
+
+`site:*.com.mx inurl:/robots.txt intext:"User-agent:"`
+
+En este caso estamos reduciendo los resultados a solo paginas que tengan el dominio .com junto con .mx ".com.mx" lo que quiere decir que estamos buscando paginas
+Méxicanas ya que el dominio .mx pertenece a paginas alojadas en mexico, al encontrar esas paginas se aplica el operador inurl:/robots.txt que eso reduce aun mas 
+paginas encontradas a solo las que contengan la palabla "robots.txt" en su url, por ultimo entra intext:"User-agent:" a reducir aun mas los resultado anteriores 
+y verificando que las paginas encontradas antes tengan la palabra "user-agent:" en ellas, ahora si podemos asegurar que las paginas que encontramos nos mostraran el
+archivo robots.txt de cada pagina.
+
+Ese es solo un ejemplo de como utilizar los operadores para encontrar cosas interesantes.
+
