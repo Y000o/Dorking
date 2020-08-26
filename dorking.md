@@ -4,6 +4,9 @@
 * [Importancia](#Importancia)
 * [Conceptos basicos](#Conceptos-basicos)
 * [¿Cómo usar esto en el "hacking"?](#¿Cómo-usar-esto-en-el-"hacking"?)
+* [Ejemplos de dorks](#Ejemplos-de-dorks)
+* [Dorks para inyeccion sql y xss](#Dorks-para-inyeccion-sql-y-xss)
+* [Dorks para encontrar camaras](#Dorks-para-encontrar-camaras)
 
 
 ## ¿Qué es el dorking?
@@ -182,3 +185,156 @@ archivo robots.txt de cada pagina.
 
 Ese es solo un ejemplo de como utilizar los operadores para encontrar cosas interesantes.
 
+Por otra parte tambien podemos enfocarnos en buscar paginas que esten hechas en algun CMS en especifico, por ejemplo WORDPRESS, este se ha caracterizado por ser muy comodo para trabajar en el y bastante facil ya que contiene muchos plugins que nos pueden ser de mucha ayuda, pero al mismo tiempo estos complementos pueden venir con muchos fallos que permiten a otra persona explotar varias vulnerabilidades. 
+
+Para encontrar paginas creadas en WORDPRESS primero tenemos que conocer un poco de el, su estructura basica de archivos y carpetas, los archivos mas importantes... etc, aqui voy a tratar de explicar un poco para entender mejor por que es importante conocer eso:
+
+WORDPRESS utiliza la siguiente estructura en su url: 
+
+`https://tudominio/wp-admin o https://tudominio/wordpress/wp-admin o https://tudominio/wp/wp-admin`
+
+Sus principales carpetas y archivos importantes:
+```
+* wp-admin: Carpeta donde se guardan los archivos del back-end de WordPress, esta parte de la instalación nunca se modifica.
+
+* wp-content: Es la carpeta donde se guarda todo el contenido en formato de archivos (no base de datos)
+
+* wp-includes: Es una carpeta de archivos que necesita WordPress para funcionar, su API y las librerías principales se encuentran en esta carpeta que tampoco se modifica nunca.
+
+* index.php: es el archivo principal al que se accede y desde donde se cargan el resto de partes de WordPress.
+
+* wp-config-sample.php: Este archivo es la plantilla de lo que finalmente será el archivo WP-CONFIG.PHP tras la instalación del CMS
+
+* xmlrpc.php: Se trata de un archivo que ofrece la comunicación mediante el protocolo XMLRPC.PHP, actualmente WordPress recibe muchos ataques a través de este archivo, por lo que es importante hacer hincapié en su seguridad y su protección.
+
+* wp-login.php:  Es un archivo bastante importante, ya que es el que se encarga de gestionar el login de los usuarios, tanto usuarios normales como administradores. 
+```
+
+Ahora, con eso en mente ya nos damos una idea de como encontrar paginas creadas en wordpress mediante dorking:
+
+sabemos la como se comporta wordpress para crear sus url, para encontrar paginas podemos usar lo siguiente:
+
+`inurl:/wordpress/wp-content`
+`inurl:/wordpress/wp-admin`
+`inurl:/wordpress/wp-includes`
+
+aqui estamos buscando directamente una carpeta del directorio de wordpress mediante inurl, lo que nos mostrará muchas paginas en donde accederemos(si contamos con el permiso) directamente a los archivos de wordpress.
+
+## Ejemplos de dorks
+
+En esta parte utilizaré como complemento un hilo de mi propia cuenta de twitter en donde he publicado muchos dorks que me parecen interesantes y vamos a analizar algunos de ellos aqui:
+
+El primero que vamos a utilizar será:
+
+inurl:wp-config.php intext:DB_PASSWORD -stackoverflow -wpbeginner -foro -forum -topic -blog -about -docs -articles
+
+`https://twitter.com/_Y000_/status/1205400779957440512?s=20`
+
+Este dork nos permite encontrar paginas creadas en wordpress y estamos buscando especificamente el archivo wp-config.php, despues utilizamos intext:DB_PASSWORD para filtrar los resultado en donde se encuentre esa palabra, que es para encontrar configuraciones de la base de datos, encontramos informacion como: usuarios, contraseña, nombre de la base de datos... etc, informacion muy importante que no deberia ser visible para cuarquier persona, por ultimo tenemos parabras con un "-" eso significa que estamos excluyendo esas palabras de nuetra busqueda.
+
+
+Otro dork muy interesante es el siguente:
+
+intitle:"Index Of" intext:"iCloud Photos" OR intext:"My Photo Stream" OR intext:"Camera Roll"
+
+`https://twitter.com/_Y000_/status/1205647749372203010?s=20`
+
+En este ejemplo usamos intitle:"index of" que es para encontrar directorios dentro de la pagina web, eso quiere decir que estamos buscando paginas que contengan un listado de directorios en su interior, normalmente estos no son visibles, despues estamos filtrando los resultados entre varios intext y OR lo que significa que estamos buscando cualquiera de esas 3 frases.
+
+En este caso estamos buscando dispositivos iCloud vulnerables, con lo cual podemos ver todas las fotos que esten compartiendo. este dork puede ser modificado para encontrar diferentes cosas.
+
+Pero no solo hacemos uso de los dorks para encontrar carpetas u archovos, tambien podemos encontrar servidores corriendo algun servicio: 
+
+intitle:"Welcome to JBoss"
+inurl:"8080/jmx-console"
+
+```
+https://twitter.com/_Y000_/status/1232415430876090368?s=20
+https://twitter.com/_Y000_/status/1220447109842984963?s=20
+```
+Con esos dorks podemos encontrar servidores ejecutando el sistema de Jboss. 
+
+## Dorks para inyeccion sql y xss
+
+El Dorking es muy relacionado con las inyecciones sql y xss, ya que muchos "hackers" hacen uso de dorks para encontrar paginas vulnerables. si quieren profundizar un poco mas en las inyecciones sql les recomiendo que pasen por este escrito que tambien creé y se enfoca en eso: 
+
+https://github.com/Y000o/sql_injection_basic/blob/master/sql_injection_basic.md
+
+En este escrito trato de explicar de una forma muy detallada las bases para una inyeccion sql ya sea manualmente o automatica haciendo uso de herramientas.
+
+volviendo al tema, haciendo uso de algunos dorks se facilita la busqueda para encontrar paginas vulnerables a inyecciones sql y xss, algunos son: 
+
+```
+specials.cfm?id=
+store_listing.cfm?id=
+store.cfm?id=
+store_bycat.cfm?id=
+storefront.cfm?id=
+Store_ViewProducts.cfm?Cat=
+store-details.cfm?id=
+StoreRedirect.cfm?ID=
+storefronts.cfm?title=
+storeitem.cfm?item=
+subcategories.cfm?id=
+tuangou.cfm?bookid=
+ 
+tek9.cfm?
+template.cfm?Action=Item&pid=
+topic.cfm?ID=
+type.cfm?iType=
+view_cart.cfm?title=
+ 
+updatebasket.cfm?bookid=
+updates.cfm?ID=
+view.cfm?cid=
+view_detail.cfm?ID=
+viewitem.cfm?recor=
+ 
+viewcart.cfm?CartId=
+viewCart.cfm?userID=
+viewCat_h.cfm?idCategory=
+viewevent.cfm?EventID=
+WsAncillary.cfm?ID=
+ 
+viewPrd.cfm?idcategory=
+ViewProduct.cfm?misc=
+voteList.cfm?item_ID=
+whatsnew.cfm?idCategory=
+WsPages.cfm?ID=HP
+inurl:".php?cid="+intext:"online+betting"
+ 
+inurl:".php?cat="+intext:"Paypal"+site:UK
+inurl:".php?cat="+intext:"/Buy Now/"+site:.net
+inurl:".php?id=" intext:"View cart"
+inurl:".php?id=" intext:"/store/"
+ 
+inurl:".php?id=" intext:"Buy Now"
+inurl:".php?id=" intext:"add to cart"
+inurl:".php?id=" intext:"shopping"
+inurl:".php?id=" intext:"boutique"
+inurl:".php?cid=" intext:"Buy Now"
+ 
+inurl:".php?id=" intext:"/shop/"
+inurl:".php?id=" intext:"toys"
+inurl:".php?cid="
+inurl:".php?cid=" intext:"shopping"
+inurl:".php?cid=" intext:"add to cart"
+inurl:".php?cat="
+ 
+inurl:".php?cid=" intext:"View cart"
+inurl:".php?cid=" intext:"boutique"
+inurl:".php?cid=" intext:"/store/"
+inurl:".php?cid=" intext:"/shop/"
+inurl:".php?cid=" intext:"Toys"
+inurl:".php?cat=" intext:"/store/"
+
+```
+## Dorks para encontrar camaras
+
+Tambien podemos encontrar camaras en las cuales podemos entrar
+
+```
+inurl:/sample/LvAppl/lvappl.htm
+allinurl:control/multiview
+intitle:”Live View / – AXIS"
+```
