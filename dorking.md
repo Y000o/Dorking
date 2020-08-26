@@ -16,7 +16,7 @@
 El Google hacking o Dorking no es mas que un modo de buscar cosas un poco mas especializada,
 por el nombre "Google Hacking" se puede dar la imprecion de que solo se usa en google, pero eso no es correcto.
 El dorking no es mas que una busqueda avanzada en donde hacemos uso de operadores que funcionan como un filtro
-para dirigir la busqueda directamente a donde nosotros queremos, tambien usamos simbolos para buscar palafras o frases exactas.
+para dirigir la busqueda directamente a donde nosotros queremos, tambien usamos simbolos para buscar palabras o frases exactas.
 Esto nos servirá para buscar en casi cualquier motor de busqueda que encontremos en internet.
 
 ## Importancia
