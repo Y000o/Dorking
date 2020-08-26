@@ -7,6 +7,8 @@
 * [Ejemplos de dorks](#Ejemplos-de-dorks)
 * [Dorks para inyeccion sql y xss](#Dorks-para-inyeccion-sql-y-xss)
 * [Dorks para encontrar camaras](#Dorks-para-encontrar-camaras)
+* [OSINT y DORKS](#OSINT-y-DORKS)
+* [Importancia final](#Importancia-final)
 
 
 ## ¿Qué es el dorking?
@@ -338,3 +340,66 @@ inurl:/sample/LvAppl/lvappl.htm
 allinurl:control/multiview
 intitle:”Live View / – AXIS"
 ```
+
+## OSINT y DORKS
+
+Haciendo uso de Dorks tambien podemos enfocarnos en OSINT que es un conjunto de técnicas y herramientas para recopilar información pública.
+
+para buscar nombres: 
+```
+“nombre” site:página web
+
+“nombre” site:http://instagram.com
+
+```
+
+usernames:
+
+```
+inurl:username site:página
+
+allinurl:username site:página
+```
+
+Buscar informacion de una pagina web, obtener paginas relacionadas a ella y todos sus subdominios:
+
+```
+Búsquedas en una página web:
+site:http://example.com
+
+Páginas parecidas:
+related:http://example.com 
+
+Subdominios:
+site:*.example.com -www
+```
+
+Correos electronicos: 
+
+```
+Estos nos ayudarán a recolectar correos electrónicos de diferentes páginas web:
+
+“
+@example
+.com” site: página
+
+HR “email” site: página filetype:csv | filetype:xls | filetype:xlsx
+
+site:http://example.com intext:
+@gmail
+.com filetype:xls
+
+```
+
+un extra por @pedr4uz:
+
+`https://twitter.com/pedr4uz?s=20`
+
+```
+"person_name" intext:cpf AND filetype:pdf
+
+derivado -> "person_name" intitle:aprovado + intext:cpf AND filetype:X
+```
+# Importancia final
+
+Como pudimos apreciar en este escrito, conocer bien el Dorking nos abre un mundo de posibilidades, un mundo en donde se nos hace mas facil encontrar informacion que cualquier otra persona no encotraría con facilidad, al nosotros entender bien este uso de las busquedas especializadas tenemos mucho poder, por eso es bueno y me gustaría dejarlo muy claro, mucha de la informacion que podemos encontrar puede ser que este protegida y por ende nos podemos meter en problemas si accedemos sin permiso. Todo lo aprendido en este articulo es meramente con fines educativos, cualquier uso que quieran darle es desicion de cada uno.
